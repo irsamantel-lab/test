@@ -1,0 +1,31 @@
+name: Download and commit APKDo
+
+on:
+  workflow_dispatch:
+
+jobs:
+  download-apk:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download APK
+        run: |
+          mkdir -p data
+          wget -q -P apks/ \
+            "https://github.com/shirokhorshid/shirokhorshid-android/releases/download/v2026.05.14-8a28d0c/ShirOKhorshid-2026.05.14.apk"
+            
+            
+            
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add apks/*.* || true
+          git diff --staged --quiet || git commit -m "Add mhrv-rs APK v1.7.9"
+          git push
+          
+          
+          
